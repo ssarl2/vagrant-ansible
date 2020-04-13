@@ -61,3 +61,12 @@ echo "192.168.1.10" >> /etc/ansible/hosts
 |line=`contents`|add contents to path|
 
 ### Playbook
+|Command|Description|
+|:---|:---|
+|name|sort of log or just dscription what's going on|
+|hosts|choose hosts that you named it with '[', ']' like '[webserver]'|
+|tasks|it can have some task queues that you want under 'tasks:' with modules|
+|gather_facts||
+|get_url|similar to 'curl' in bash command also permission can be added to the files immediately 'mode=0644'|
+|service|similar to 'service' in bash command|
+
