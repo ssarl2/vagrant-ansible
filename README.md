@@ -38,7 +38,7 @@ echo "192.168.1.10" >> /etc/ansible/hosts
 ||--list-hosts|check nodes to be applied|
 
 ### Command
-|Command|Example or AD-HOC usage|
+|Module|Example or AD-HOC usage|
 |:---:|:---|
 |ping|ansible all -m ping --list-hosts|
 |shell|ansible all -m shell -a "ls" -k|
@@ -59,9 +59,10 @@ echo "192.168.1.10" >> /etc/ansible/hosts
 |dest=`path and name`|of files to receive|
 |path=`path and name`|target for line|
 |line=`contents`|add contents to path|
+|repo=`git repository url`|where you want to point from git|
 
 ### Playbook
-|Command|Description|
+|Module|Description|
 |:---|:---|
 |name|sort of log or just dscription what's going on|
 |hosts|choose hosts that you named it with '[', ']' like '[webserver]'|
@@ -69,4 +70,6 @@ echo "192.168.1.10" >> /etc/ansible/hosts
 |gather_facts||
 |get_url|similar to 'curl' in bash command also permission can be added to the files immediately 'mode=0644'|
 |service|similar to 'service' in bash command|
+|git|similar to 'git' in bash command. It can be used with 'repo:' and 'dest:'|
+|with_items|declare command of multiple lines with '{{ item }}'|
 
