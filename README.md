@@ -37,8 +37,8 @@ echo "192.168.1.10" >> /etc/ansible/hosts
 |-k|--ask-pass|set to ask for password|
 ||--list-hosts|check nodes to be applied|
 
-### Command
-|Module|Example or AD-HOC usage|
+### AD-HOC Command
+|Module|Example|
 |:---:|:---|
 |ping|ansible all -m ping --list-hosts|
 |shell|ansible all -m shell -a "ls" -k|
@@ -47,6 +47,20 @@ echo "192.168.1.10" >> /etc/ansible/hosts
 |copy|ansible all -m copy -a "src=index.html dest=/var/www/html/index.html" -k|
 |service|ansible all -m service -a "name=httpd state=started" -k|
 |lineinfile|ansible localhost -c local -m lineinfile -a "path=somefile.lst line=192.168.1.14"|
+
+### Playbook Command
+|Module|Description|
+|:---|:---|
+|name|sort of log or just dscription what's going on|
+|hosts|choose hosts that you named it with '[', ']' like '[webserver]'|
+|tasks|it can have some task queues that you want under 'tasks:' with modules|
+|gather_facts||
+|get_url|similar to 'curl' in bash command also permission can be added to the files immediately 'mode=0644'|
+|service|similar to 'service' in bash command|
+|git|similar to 'git' in bash command. It can be used with 'repo:' and 'dest:'|
+|with_items|declare command of multiple lines with '{{ item }}'|
+|blockinfile|stamp 'block' contents on the path what you declared It can be used with 'path:' and 'block:'|
+|replace|replace contents. It can be used with 'path:', 'regexp:' and 'backup:'|
 
 **Appendixes**
 |Command|Description|
@@ -61,15 +75,4 @@ echo "192.168.1.10" >> /etc/ansible/hosts
 |line=`contents`|add contents to path|
 |repo=`git repository url`|where you want to point from git|
 
-### Playbook
-|Module|Description|
-|:---|:---|
-|name|sort of log or just dscription what's going on|
-|hosts|choose hosts that you named it with '[', ']' like '[webserver]'|
-|tasks|it can have some task queues that you want under 'tasks:' with modules|
-|gather_facts||
-|get_url|similar to 'curl' in bash command also permission can be added to the files immediately 'mode=0644'|
-|service|similar to 'service' in bash command|
-|git|similar to 'git' in bash command. It can be used with 'repo:' and 'dest:'|
-|with_items|declare command of multiple lines with '{{ item }}'|
-
+※ ansible-server -> ansible-nodes / password: **vagrant**
