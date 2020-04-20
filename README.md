@@ -19,6 +19,10 @@
 |vagrant destroy|remove the virtual machines managed by vagrant|
 |vagrant ssh|enter the virtual machines managed by vagrant|
 |vagrant provision|apply changed settings to the virtual machines managed by vagrant|
+|vagrant status|check status of vagrant|
+|vagrant suspend|sleep virtual machines|
+|vagrant resume|wake virtual machines up|
+|vagrant reload|reload the vagrant|
 
 ## Ansible
 ### set up example
