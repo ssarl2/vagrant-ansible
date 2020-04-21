@@ -65,6 +65,7 @@ echo "192.168.1.10" >> /etc/ansible/hosts
 |with_items|declare command of multiple lines with '{{ item }}'|
 |blockinfile|stamp 'block' contents on the path what you declared It can be used with 'path:' and 'block:'|
 |replace|replace contents. It can be used with 'path:', 'regexp:' and 'backup:'|
+|mount|attach something(shared volumes) to somewhere(nodes)|
 
 **Appendixes**
 |Command|Description|
@@ -73,6 +74,7 @@ echo "192.168.1.10" >> /etc/ansible/hosts
 |state=present|install|
 |state=absent|remove|
 |state=started|service start|
+|state=mounted|mount..|
 |src=`path and name`|of files to send|
 |dest=`path and name`|of files to receive|
 |path=`path and name`|target for line|
