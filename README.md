@@ -1,8 +1,23 @@
 ### Download 
 - [VM VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 - [Vagrant](https://www.vagrantup.com/)
-- `yum install ansible -y` (Centos7)
 
+## Usage(command)
+```
+git clone https://github.com/ssarl2/-Study-Ansible_Vagrant
+vagrant up (It might take 30 mins or more)
+vagrant ssh ansible-server
+anp nginx_install.yml -k
+vagrant (password)
+```
+Enter 192.168.1.11(centos), 14(ubuntu) on chrome
+```
+ln -sf /usr/share/zoneinfo/Europe/Helsinki /etc/localtime
+anp timezone.yml -k
+vagrant (password)
+anp nfs.yml -k
+vagrant (password)
+```
 
 ## Vagrant
 |-- HashiCorp<br>
