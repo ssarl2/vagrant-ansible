@@ -10,11 +10,11 @@
         state: directory
         mode: 0777
 
+# subnet mask,24: 192.168.1.1-254, read,write, synchronize between server and clients
     - name: configure /etc/exports
       become: yes
       lineinfile:
         path: /etc/exports
-        #subnet mask,24: 192.168.1.1-254, read,write, synchronize between server and clients
         line: /home/vagrant/nfs_shared 192.168.1.0/24(rw,sync)
 
     - name: nfs service restart
@@ -24,7 +24,7 @@
         state: restarted
     
 - name: Setup for nfs clients
-  hosts: CentOS
+  hosts: CentOS:Ubuntu
   gather_facts: no
 
   tasks:
@@ -41,3 +41,18 @@
         fstype: nfs
         opts: nfsvers=3
         state: mounted
+
+- name: Setup for nfs windows clients
+  hosts: Windows
+  gather_facts: no
+
+  tasks:
+    - name: mount feature on
+      win_feature:
+        name: NFS-Client
+        state: present
+
+    - name: mount nfs_shared
+      win_command: net use "z:" "\\192.168.1.10/home/vagrant/nfs_shared"
+    - name: windows reboot
+      win_reboot:
