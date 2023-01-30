@@ -1,31 +1,16 @@
-### Download 
+## Dependencies
 - [VM VirtualBox](https://www.virtualbox.org/wiki/Downloads)
 - [Vagrant](https://www.vagrantup.com/)
 
-## Usage(command)
-```
-git clone https://github.com/ssarl2/-Study-Ansible_Vagrant
-vagrant up (It might take 30 mins or more)
-vagrant ssh ansible-server
-anp nginx_install.yml -k
-vagrant (password)
-```
-Enter 192.168.1.11(centos), 14(ubuntu) on chrome
-```
-ln -sf /usr/share/zoneinfo/Europe/Helsinki /etc/localtime
-anp timezone.yml -k
-vagrant (password)
-anp nfs.yml -k
-vagrant (password)
-```
+## Install
+git clone https://github.com/ssarl2/-Study-Ansible_Vagrant.git
+
+## Run
+1. \-Study-Ansible_Vagrant> vagrant up (Assume that running in windows 10)
+2. Go to drink a cup of coffee (Wait until ubuntu20 virtual box is visualized)
 
 ## Vagrant
-|-- HashiCorp<br>
-|---|-- Vagrant<br>
-|---|---|-- ...<br>
-|---|-- ansible_env_ready.yml<br>
-|---|-- Vagrantfile<br>
-
+### Command
 |Command|Description|
 |:---|:---|
 |vagrant init|create an example for provisioning|
@@ -40,13 +25,8 @@ vagrant (password)
 |vagrant reload|reload the vagrant|
 
 ## Ansible
-### set up example
-`ansible all -m ping -k`
-`vi /etc/ansible/hosts` or
-```
-echo "[webserver]" >> /etc/ansible/hosts
-echo "192.168.1.10" >> /etc/ansible/hosts
-```
+### Document links
+- [list of all modules](https://docs.ansible.com/ansible/2.9/modules/list_of_all_modules.html)
 
 ### Options
 |Options|Full name|Description|
@@ -82,7 +62,7 @@ echo "192.168.1.10" >> /etc/ansible/hosts
 |replace|replace contents. It can be used with 'path:', 'regexp:' and 'backup:'|
 |mount|attach something(shared volumes) to somewhere(nodes)|
 
-**Appendixes**
+### Extra
 |Command|Description|
 |:---|:---|
 |name=`package`|name of package you want install|
@@ -96,4 +76,5 @@ echo "192.168.1.10" >> /etc/ansible/hosts
 |line=`contents`|add contents to path|
 |repo=`git repository url`|where you want to point from git|
 
-※ ansible-server -> ansible-nodes / password: **vagrant**
+## Troubleshooting
+Sometimes when booting virtualbox, it's stuck. do `vagrant destroy -f`, launch virtualbox on the host machine and `vagrant up` again. Double click running image or check setting and do nothing. See if it goes next steps.

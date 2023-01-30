@@ -1,0 +1,8 @@
+---
+- name: Setup linux timezone
+  hosts: localhost
+
+  tasks:
+    - name: set timezone to Europe/Helsinki
+      timezone:
+        name: Europe/Helsinki

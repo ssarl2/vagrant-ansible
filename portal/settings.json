@@ -1,0 +1,11 @@
+{
+    "security.workspace.trust.enabled": false,
+    "workbench.iconTheme": "material-icon-theme",
+    "workbench.colorTheme": "Community Material Theme Darker High Contrast",
+    "files.autoSave": "afterDelay",
+    "editor.minimap.enabled": false,
+    "workbench.activityBar.visible": false,
+    "workbench.statusBar.visible": false,
+    "window.menuBarVisibility": "toggle",
+    "editor.multiCursorModifier": "ctrlCmd"
+}

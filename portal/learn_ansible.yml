@@ -1,0 +1,110 @@
+---
+- name: Setup for the Ansible's Environment
+  hosts: localhost
+  become: true
+  vars:
+    created_username: focal
+    created_username_password: 1234
+
+  tasks:
+    - name: Install aptitude which is recommended by Ansible
+      apt:
+        name: aptitude
+        state: latest
+        update_cache: true
+
+    - name: Setup passwordless sudo
+      lineinfile:
+        path: /etc/sudoers
+        state: present
+        regexp: '^%sudo'
+        line: '%sudo ALL=(ALL) NOPASSWD: ALL'
+        validate: '/usr/sbin/visudo -cf %s'
+
+    - name: Create an user
+      user:
+        name: '{{ created_username }}'
+        password: "{{ '{{ created_username_password }}' | password_hash('sha512') }}"
+        state: present
+        uid: 1077
+        groups: sudo
+        append: true
+        create_home: true
+        shell: '/bin/bash'
+        home: '/home/{{ created_username }}'
+
+    - name: Change to auto login
+      lineinfile:
+        path: /etc/gdm3/custom.conf
+        state: present
+        # https://www.middlewareinventory.com/blog/ansible-lineinfile-multiple-lines-replace-multiple-lines/
+        # https://regex-generator.olafneumann.org/?sampleText=%23%20%20AutomaticLogin&flags=i&selection=1%7CWhitespaces
+        regexp: '{{item.From}}'
+        line: '{{item.To}}'
+      with_items:
+        - { From: '#\s+AutomaticLoginEnable = true', To: 'AutomaticLoginEnable = true' }
+        - { From: '#\s+AutomaticLogin = user1', To: 'AutomaticLogin = {{ created_username }}' }
+
+    - name: Install basic packages
+      apt:
+        pkg:
+          - cmake
+          - curl
+          - wget
+          - nano
+          - tree
+          - bash-completion
+          - ssh
+          - build-essential
+          - gdb
+          - g++
+        state: latest
+        update_cache: true
+
+    - name: vscode
+      apt:
+        pkg:
+          - software-properties-common
+          - apt-transport-https
+
+    - name: vscode
+      shell: wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+    
+    - name: vscode
+      apt_repository:
+        repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+        state: present
+
+    - name: vscode
+      apt:
+        name: code
+        state: latest
+        update_cache: true
+
+    - name: vscode extensions
+      become_user: '{{ created_username }}'
+      shell: 'code --install-extension {{ item }}'
+      loop:
+        - 'ms-vscode.cpptools'
+        - 'ms-python.python'
+        - 'eamodio.gitlens'
+        - 'PKief.material-icon-theme'
+        - 'Equinusocio.vsc-material-theme'
+        - 'vincaslt.highlight-matching-tag'
+        - 'aaron-bond.better-comments'
+        - 'ms-vscode.cmake-tools'
+        - 'hediet.vscode-drawio'
+        - 'yzhang.markdown-all-in-one'
+        - 'ms-vscode.cpptools-extension-pack'
+      register: echo
+
+    - name: vscode
+      copy:
+        src: '{{ item }}'
+        dest: '/home/{{ created_username }}/.config/Code/User/'
+        owner: '{{ created_username }}'
+        group: '{{ created_username }}'
+        mode: '0644'
+      loop:
+        - 'settings.json'
+        - 'keybindings.json'

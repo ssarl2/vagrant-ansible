@@ -1,0 +1,12 @@
+// Place your key bindings in this file to override the defaultsauto[]
+[
+    {
+        "key": "ctrl+shift+x",
+        "command": "workbench.action.toggleMaximizedPanel"
+    },
+    {
+        "key": "ctrl+shift+q",
+        "command": "workbench.action.toggleActivityBarVisibility"
+    }
+]
+

@@ -1,137 +1,114 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# use Vagrant_API_Version 2
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
 Vagrant.configure("2") do |config|
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
 
-  #==============#
-  # CentOS nodes #
-  #==============#
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://vagrantcloud.com/search.
+  config.vm.box = "ubuntu/focal64"
 
-  #Ansible-Node01
-  config.vm.define "ansible-node01" do |cfg|
-    cfg.vm.box = "centos/7"
-    cfg.vm.provider "virtualbox" do |vb|
-      vb.name = "Ansible-Node01(github_SysNet4Admin)"
-    end
-    cfg.vm.host_name = "ansible-node01"
-    cfg.vm.network "public_network", ip: "192.168.1.11"
-    cfg.vm.network "forwarded_port", guest: 22, host: 60011, auto_correct: true, id: "ssh"
-    cfg.vm.synced_folder "../data", "/vagrant", disabled: true
-    cfg.vm.provision "shell", path: "bash_ssh_conf_4_CentOS.sh"
-  end
+  # Disable automatic box update checking. If you disable this, then
+  # boxes will only be checked for updates when the user runs
+  # `vagrant box outdated`. This is not recommended.
+  config.vm.box_check_update = false
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine. In the example below,
+  # accessing "localhost:8080" will access port 80 on the guest machine.
+  # NOTE: This will enable public access to the opened port
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine and only allow access
+  # via 127.0.0.1 to disable public access
+  # config.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
+
+  # Create a private network, which allows host-only access to the machine
+  # using a specific IP.
+  # config.vm.network "private_network", ip: "192.168.1.10"
+
+  # Create a public network, which generally matched to bridged network.
+  # Bridged networks make the machine appear as another physical device on
+  # your network.
+  config.vm.network "public_network", ip: "192.168.1.99"
+
+  # Share an additional folder to the guest VM. The first argument is
+  # the path on the host to the actual folder. The second argument is
+  # the path on the guest to mount the folder. And the optional third
+  # argument is a set of non-required options.
+  config.vm.synced_folder "portal", "/home/vagrant/Desktop/portal", 
+    create: true, owner: "vagrant", group: "vagrant"
+
+  # Provider-specific configuration so you can fine-tune various
+  # backing providers for Vagrant. These expose provider-specific options.
+  # Example for VirtualBox:
+  config.vm.provider "virtualbox" do |vb|
+    # Display the VirtualBox GUI when booting the machine
+    vb.gui = true
   
-# #Ansible_Node02
-# config.vm.define "ansible-node02" do |cfg|
-#   cfg.vm.box = "centos/7"
-#   cfg.vm.provider "virtualbox" do |vb|
-#     vb.name = "Ansible-Node02(github_SysNet4Admin)"
-#   end
-#   cfg.vm.host_name = "ansible-node02"
-#   cfg.vm.network "public_network", ip: "192.168.1.12"
-#   cfg.vm.network "forwarded_port", guest: 22, host: 60012, auto_correct: true, id: "ssh"
-#   cfg.vm.synced_folder "../data", "/vagrant", disabled: true
-#   cfg.vm.provision "shell", path: "bash_ssh_conf_4_CentOS.sh"
-# end
+    # Customize the amount of memory on the VM:
+    vb.memory = "4096"
+    vb.cpus = 2
 
-# #Ansible_Node03
-# config.vm.define "ansible-node03" do |cfg|
-#   cfg.vm.box = "centos/7"
-#   cfg.vm.provider "virtualbox" do |vb|
-#     vb.name = "Ansible-Node03(github_SysNet4Admin)"
-#   end
-#   cfg.vm.host_name = "ansible-node03"
-#   cfg.vm.network "public_network", ip: "192.168.1.13"
-#   cfg.vm.network "forwarded_port", guest: 22, host: 60013, auto_correct: true, id: "ssh"
-#   cfg.vm.synced_folder "../data", "/vagrant", disabled: true
-#   cfg.vm.provision "shell", path: "bash_ssh_conf_4_CentOS.sh"
-# end
+    # Some example of how to use if
+    #if RUBY_PLATFORM =~ /darwin/
+    #  vb.customize ["modifyvm", :id, '--audio', 'coreaudio', '--audiocontroller', 'hda']
+    #elsif RUBY_PLATFORM =~ /mingw|mswin|bccwin|cygwin|emx/
+    #  vb.customize ["modifyvm", :id, '--audio', 'dsound', '--audiocontroller', 'ac97']
+    #elsif RUBY_PLATFORM =~ /linux/
+    #  vb.customize 
+    #end
 
-  #==============#
-  # Ubuntu nodes #
-  #==============#
-  # You can check name of images on vagrant cloud
-
-#  #Ansible-Node04
-#  config.vm.define "ansible-node04" do |cfg|
-#    cfg.vm.box = "ubuntu/trusty64"
-#    cfg.vm.provider "virtualbox" do |vb|
-#      vb.name = "Ansible_Node04(github_SysNet4Admin)"
-#    end
-#    cfg.vm.host_name = "ansible-node04"
-#    cfg.vm.network "public_network", ip: "192.168.1.14"
-#    cfg.vm.network "forwarded_port", guest: 22, host: 60014, auto_correct: true, id: "ssh"
-#    cfg.vm.synced_folder "../data", "/vagrant", disabled: true
-#  end
-
-  #Ansible-Node05
-  config.vm.define "ansible-node05" do |cfg|
-    cfg.vm.box = "ubuntu/trusty64"
-    cfg.vm.provider "virtualbox" do |vb|
-      vb.name = "Ansible-Node05(github_SysNet4Admin)"
-    end
-    cfg.vm.host_name = "ansible-node05"
-    cfg.vm.network "public_network", ip: "192.168.1.15"
-    cfg.vm.network "forwarded_port", guest: 22, host: 60015, auto_correct: true, id: "ssh"
-    cfg.vm.synced_folder "../data", "/vagrant", disabled: true
+    # Available Oracle customization options
+    # https://docs.oracle.com/en/virtualization/virtualbox/6.0/user/vboxmanage-modifyvm.html
+    # https://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvm-other
+      vb.customize [
+      "modifyvm", :id,
+      "--vram", "64",
+      "--cableconnected1", "on",
+      "--accelerate2dvideo", "on",
+      "--accelerate3d", "on"
+    ]
   end
+  #
+  # View the documentation for the provider you are using for more
+  # information on available options.
 
-  #Ansible-Node06
-  config.vm.define "ansible-node06" do |cfg|
-    cfg.vm.box = "ubuntu/trusty64"
-    cfg.vm.provider " virtualbox" do |vb|
-      vb.name = "Ansible-Node06(github_SysNet4Admin)"
-    end
-    cfg.vm.host_name = "ansible-node06"
-    cfg.vm.network "public_network", ip: "192.168.1.16"
-    cfg.vm.network "forwarded_port", guest: 22, host: 60016, auto_correct: true, id: "ssh"
-    cfg.vm.synced_folder "../data", "/vagrant", disabled: true
-  end
+  # Enable provisioning with a shell script. Additional provisioners such as
+  # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
+  # documentation for more information about their specific syntax and use.
+  config.vm.provision "shell", inline: <<-SHELL
+    export DEBIAN_FRONTEND=noninteractive
+    # install GUI
+    sudo apt-get update
+    sudo apt-get install -y ubuntu-desktop
 
-  #==============#
-  # Windows node #
-  #==============#
+    # some video players are not supported in firefox
+    sudo apt-get install -y ffmpeg
+    
+    # install ansible
+    sudo apt-get install -y software-properties-common
+    # reason of looking special sed
+    # https://stackoverflow.com/questions/43650805/sed-error-in-vagrant-provision-but-ok-in-manual-execute
+    sudo sed -i -e 's$#precedence ::ffff:0:0/96  100$precedence ::ffff:0:0/96  100$g' /etc/gai.conf
+    sudo apt-add-repository ppa:ansible/ansible
+    sudo apt-get update
+    sudo apt-get install -y ansible
 
-  #Ansible-Node07
-  config.vm.define "ansible-node07" do |cfg|
-    cfg.vm.box = "sysnet4admin/windows2016"
-    cfg.vm.provider "virtualbox" do |vb|
-      vb.name = "Ansible-Node07(github_SysNet4Admin)"
-      vb.customize ['modifyvm', :id, '--clipboard', 'bidirectional']
-      vb.gui = false
-    end
-    cfg.vm.host_name = "ansible-node07"
-    cfg.vm.network "public_network", ip: "192.168.1.17"
-    cfg.vm.network "forwarded_port", guest: 22, host: 60017, auto_correct: true, id: "ssh"
-    cfg.vm.synced_folder "../data", "/vagrant", disabled: true
-    cfg.vm.provision "shell", inline: "netsh advfirewall set allprofiles state off"
-  end
+    # run ansible playbook
+    ansible-playbook /home/vagrant/Desktop/portal/learn_ansible.yml -u root
 
-  #================#
-  # Ansible Server #
-  #================#
+    # get to work with GUI
+    reboot
 
-  config.vm.define "ansible-server" do |cfg|
-    # config.vm.define(ansible-server).vm.box ...
-    cfg.vm.box = "centos/7"
-    cfg.vm.provider "virtualbox" do |vb|
-      vb.name = "Ansible-Server(github_SysNet4Admin)"
-    end
-    cfg.vm.host_name = "ansible-server"
-    cfg.vm.network "public_network", ip: "192.168.1.10"
-    # auto_correct: prevent using duplicate port
-    # id: "ssh" is to use ssh explicitly
-    # Refer to page. 101
-    cfg.vm.network "forwarded_port", guest: 22, host: 60010, auto_correct: true, id: "ssh"
-    # We won't use directory synchronize, "/vagrant" is necessary to use 'disabled'
-    cfg.vm.synced_folder "../data", "/vagrant", disabled: true
-    cfg.vm.provision "shell", inline: "yum install ansible -y"
-    cfg.vm.provision "file", source: "ansible_env_ready.yml", destination: "ansible_env_ready.yml"
-    cfg.vm.provision "shell", inline: "ansible-playbook ansible_env_ready.yml"
-    cfg.vm.provision "shell", path: "add_ssh_auth.sh", privileged: false
-    cfg.vm.provision "file", source: "nginx_install.yml", destination: "nginx_install.yml"
-    cfg.vm.provision "file", source: "nginx_remove.yml", destination: "nginx_remove.yml"
-    cfg.vm.provision "file", source: "timezone.yml", destination: "timezone.yml"
-    cfg.vm.provision "file", source: "nfs.yml", destination: "nfs.yml"
-  end
+    # change resolution
+    # xrandr -s 1920x1200
+  SHELL
 end
