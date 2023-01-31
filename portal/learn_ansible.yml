@@ -114,3 +114,61 @@
       loop:
         - 'settings.json'
         - 'keybindings.json'
+        
+    - name: Uninstall old versions
+      apt:
+        pkg:
+          - docker
+          - docker-engine
+          - docker.io
+          - containerd
+          - runc
+        state: absent
+      ignore_errors: true
+
+    - name: Install dependencies to set up the repository
+      apt:
+        pkg:
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        state: latest
+        update_cache: true
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: "deb https://download.docker.com/linux/ubuntu {{ ansible_facts['lsb']['codename'] }} stable"
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        pkg:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+        state: latest
+        update_cache: true
+
+    - name: Add group to an user. Same as 'usermod -aG docker $USER' - docker no need sudo
+      user:
+        name: '{{ created_username }}'
+        groups: docker
+        append: true
+    
+    - name: Reset ssh connection to allow user changes to affect ansible user. Same as 'newgrp docker' - docker no need sudo
+      meta: reset_connection
+
+    - name: Change docker directory permission - docker no need sudo
+      file:
+        state: directory
+        path: '/home/{{ created_username }}/.docker/'
+        owner: '{{ created_username }}'
+        group: '{{ created_username }}'
+        mode: '0770'
