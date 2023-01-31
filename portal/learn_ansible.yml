@@ -4,7 +4,7 @@
   become: true
   vars:
     created_username: focal
-    created_username_password: 1234
+    created_username_password: '1234'
 
   tasks:
     - name: Install aptitude which is recommended by Ansible
@@ -24,14 +24,20 @@
     - name: Create an user
       user:
         name: '{{ created_username }}'
-        password: "{{ '{{ created_username_password }}' | password_hash('sha512') }}"
+        password: "{{ created_username_password | password_hash('sha512') }}"
         state: present
-        uid: 1077
         groups: sudo
         append: true
         create_home: true
         shell: '/bin/bash'
         home: '/home/{{ created_username }}'
+        update_password: on_create
+
+    - name: Copy ssh
+      copy:
+        src: /home/vagrant/.ssh/
+        dest: '/home/{{ created_username }}/.ssh/'
+      ignore_errors: true
 
     - name: Change to auto login
       lineinfile:

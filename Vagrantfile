@@ -46,6 +46,9 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "portal", "/home/vagrant/Desktop/portal", 
     create: true, owner: "vagrant", group: "vagrant"
 
+  config.vm.synced_folder "C:/Users/hyunbin/.ssh", "/home/vagrant/.ssh", 
+    create: true, owner: "vagrant", group: "vagrant"
+
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
