@@ -13,6 +13,9 @@
         state: latest
         update_cache: true
 
+    - name: Set timezone to Europe/Helsinki
+      timezone: name=Europe/Helsinki
+
     - name: Setup passwordless sudo
       lineinfile:
         path: /etc/sudoers
