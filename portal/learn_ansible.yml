@@ -40,6 +40,9 @@
       copy:
         src: /home/vagrant/.ssh/
         dest: '/home/{{ created_username }}/.ssh/'
+        owner: '{{ created_username }}'
+        group: '{{ created_username }}'
+        mode: '0755'
       ignore_errors: true
 
     - name: Change to auto login
