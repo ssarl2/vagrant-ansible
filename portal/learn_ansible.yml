@@ -108,6 +108,7 @@
         - 'hediet.vscode-drawio'
         - 'yzhang.markdown-all-in-one'
         - 'ms-vscode.cpptools-extension-pack'
+        - 'bierner.markdown-mermaid'
       register: echo
 
     - name: vscode
