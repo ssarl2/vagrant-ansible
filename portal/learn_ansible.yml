@@ -70,6 +70,7 @@
           - build-essential
           - gdb
           - g++
+          - clang-format
         state: latest
         update_cache: true
 
