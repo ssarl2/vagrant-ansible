@@ -110,6 +110,8 @@
         - 'yzhang.markdown-all-in-one'
         - 'ms-vscode.cpptools-extension-pack'
         - 'bierner.markdown-mermaid'
+        - 'amiralizadeh9480.cpp-helper'
+        - 'cschlosser.doxdocgen'
       register: echo
 
     - name: vscode
