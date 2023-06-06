@@ -106,12 +106,13 @@
         - 'vincaslt.highlight-matching-tag'
         - 'aaron-bond.better-comments'
         - 'ms-vscode.cmake-tools'
-        - 'hediet.vscode-drawio'
+        - 'hediet.vscode-drawio' # for drawing draw.io
         - 'yzhang.markdown-all-in-one'
         - 'ms-vscode.cpptools-extension-pack'
-        - 'bierner.markdown-mermaid'
-        - 'amiralizadeh9480.cpp-helper'
-        - 'cschlosser.doxdocgen'
+        - 'bierner.markdown-mermaid' # for drawing diagrams with markdown
+        - 'amiralizadeh9480.cpp-helper' # for generating cpp header guard and functions
+        - 'cschlosser.doxdocgen' # for documenting
+        - 'formulahendry.auto-rename-tag' # for developing react web
       register: echo
 
     - name: vscode
