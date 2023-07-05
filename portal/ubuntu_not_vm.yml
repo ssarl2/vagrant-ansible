@@ -1,0 +1,141 @@
+---
+- name: Setup for the Ansible's Environment
+  hosts: localhost
+  become: true
+  vars:
+    created_username: focal
+    created_username_password: '1234'
+
+  tasks:
+    - name: Install aptitude which is recommended by Ansible
+      apt:
+        name: aptitude
+        state: latest
+        update_cache: true
+
+    - name: Install basic packages
+      apt:
+        pkg:
+          - cmake
+          - curl
+          - wget
+          - nano
+          - tree
+          - bash-completion
+          - ssh
+          - build-essential
+          - gdb
+          - g++
+          - clang-format
+        state: latest
+        update_cache: true
+
+    - name: vscode
+      apt:
+        pkg:
+          - software-properties-common
+          - apt-transport-https
+
+    - name: vscode
+      shell: wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
+    
+    - name: vscode
+      apt_repository:
+        repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+        state: present
+
+    - name: vscode
+      apt:
+        name: code
+        state: latest
+        update_cache: true
+
+    - name: vscode extensions
+      become_user: '{{ created_username }}'
+      shell: 'code --install-extension {{ item }}'
+      loop:
+        - 'ms-vscode.cpptools'
+        - 'ms-python.python'
+        - 'eamodio.gitlens'
+        - 'PKief.material-icon-theme'
+        - 'Equinusocio.vsc-material-theme'
+        - 'vincaslt.highlight-matching-tag'
+        - 'aaron-bond.better-comments'
+        - 'ms-vscode.cmake-tools'
+        - 'hediet.vscode-drawio' # for drawing draw.io
+        - 'yzhang.markdown-all-in-one'
+        - 'ms-vscode.cpptools-extension-pack'
+        - 'bierner.markdown-mermaid' # for drawing diagrams with markdown
+        - 'amiralizadeh9480.cpp-helper' # for generating cpp header guard and functions
+        - 'cschlosser.doxdocgen' # for documenting
+        - 'formulahendry.auto-rename-tag' # for developing react web
+      register: echo
+
+    - name: vscode
+      copy:
+        src: '{{ item }}'
+        dest: '/home/{{ created_username }}/.config/Code/User/'
+        owner: '{{ created_username }}'
+        group: '{{ created_username }}'
+        mode: '0644'
+      loop:
+        - 'settings.json'
+        - 'keybindings.json'
+        
+    - name: Uninstall old versions
+      apt:
+        pkg:
+          - docker
+          - docker-engine
+          - docker.io
+          - containerd
+          - runc
+        state: absent
+      ignore_errors: true
+
+    - name: Install dependencies to set up the repository
+      apt:
+        pkg:
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        state: latest
+        update_cache: true
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: "deb https://download.docker.com/linux/ubuntu {{ ansible_facts['lsb']['codename'] }} stable"
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        pkg:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-compose-plugin
+        state: latest
+        update_cache: true
+
+    - name: Add group to an user. Same as 'usermod -aG docker $USER' - docker no need sudo
+      user:
+        name: '{{ created_username }}'
+        groups: docker
+        append: true
+    
+    - name: Reset ssh connection to allow user changes to affect ansible user. Same as 'newgrp docker' - docker no need sudo
+      meta: reset_connection
+
+    - name: Change docker directory permission - docker no need sudo
+      file:
+        state: directory
+        path: '/home/{{ created_username }}/.docker/'
+        owner: '{{ created_username }}'
+        group: '{{ created_username }}'
+        mode: '0770'
