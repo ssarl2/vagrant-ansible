@@ -3,11 +3,11 @@
 - [Vagrant](https://www.vagrantup.com/)
 
 ## Install
-git clone https://github.com/ssarl2/-Study-Ansible_Vagrant.git
+git clone https://github.com/ssarl2/vagrant-ansible.git
 
 ## Run
-1. \-Study-Ansible_Vagrant> vagrant up (Assume that running in windows 10)
-2. Go to drink a cup of coffee (Wait until ubuntu20 virtual box is visualized)
+- `vagrant_ansible$ vagrant up` (Assume that running in windows 10)
+- Go to drink a cup of coffee (Wait until ubuntu20 virtual box is visualized)
 
 ## Vagrant
 ### Command
