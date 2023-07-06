@@ -30,6 +30,15 @@
         state: latest
         update_cache: true
 
+    - name: Install additional packages
+      apt:
+        pkg:
+          - terminator
+          - gnome-tweaks
+          - gnome-shell-extensions ## Tiling assistant https://www.youtube.com/watch?v=R2k9PG-TXFE
+        state: latest
+        update_cache: true
+
     - name: vscode
       apt:
         pkg:
