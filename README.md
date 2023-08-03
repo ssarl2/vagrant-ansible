@@ -3,7 +3,12 @@
 - [Vagrant](https://www.vagrantup.com/)
 
 ## Install
-git clone https://github.com/ssarl2/vagrant-ansible.git
+`git clone https://github.com/ssarl2/vagrant-ansible.git`
+### or in Ubuntu
+`sudo ansible-playbook ubuntu_not_vm.yml -u root`
+
+### Self install
+- [Ubuntu Ctrl Shift e](https://askubuntu.com/questions/1083913/what-does-ctrl-shift-e-do-while-typing-text)
 
 ## Run
 - `vagrant_ansible$ vagrant up` (Assume that running in windows 10)

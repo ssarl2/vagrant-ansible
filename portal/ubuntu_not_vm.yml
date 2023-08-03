@@ -3,7 +3,7 @@
   hosts: localhost
   become: true
   vars:
-    created_username: focal
+    created_username: ubuntu
     created_username_password: '1234'
 
   tasks:
@@ -36,6 +36,25 @@
           - terminator
           - gnome-tweaks
           - gnome-shell-extensions ## Tiling assistant https://www.youtube.com/watch?v=R2k9PG-TXFE
+          - ffmpegthumbnailer ## Show thumbnailers of video files
+          - vlc
+          - htop
+
+        state: latest
+        update_cache: true
+
+    - name: virtualbox import public keys
+      shell: |
+        wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+        wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+
+    - name: virtualbox apt_repository
+      apt_repository:
+        repo: deb http://download.virtualbox.org/virtualbox/debian focal contrib
+
+    - name: virtualbox install
+      apt:
+        name: virtualbox
         state: latest
         update_cache: true
 
@@ -47,7 +66,7 @@
 
     - name: vscode
       shell: wget -q https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add -
-    
+
     - name: vscode
       apt_repository:
         repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
@@ -90,7 +109,7 @@
       loop:
         - 'settings.json'
         - 'keybindings.json'
-        
+
     - name: Uninstall old versions
       apt:
         pkg:
@@ -137,7 +156,7 @@
         name: '{{ created_username }}'
         groups: docker
         append: true
-    
+
     - name: Reset ssh connection to allow user changes to affect ansible user. Same as 'newgrp docker' - docker no need sudo
       meta: reset_connection
 
