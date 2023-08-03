@@ -3,8 +3,8 @@
   hosts: localhost
   become: true
   vars:
-    created_username: ubuntu
-    created_username_password: '1234'
+    username: ubuntu
+    username_password: '1234'
 
   tasks:
     - name: Install aptitude which is recommended by Ansible
@@ -79,7 +79,7 @@
         update_cache: true
 
     - name: vscode extensions
-      become_user: '{{ created_username }}'
+      become_user: '{{ username }}'
       shell: 'code --install-extension {{ item }}'
       loop:
         - 'ms-vscode.cpptools'
@@ -102,9 +102,9 @@
     - name: vscode
       copy:
         src: '{{ item }}'
-        dest: '/home/{{ created_username }}/.config/Code/User/'
-        owner: '{{ created_username }}'
-        group: '{{ created_username }}'
+        dest: '/home/{{ username }}/.config/Code/User/'
+        owner: '{{ username }}'
+        group: '{{ username }}'
         mode: '0644'
       loop:
         - 'settings.json'
@@ -153,7 +153,7 @@
 
     - name: Add group to an user. Same as 'usermod -aG docker $USER' - docker no need sudo
       user:
-        name: '{{ created_username }}'
+        name: '{{ username }}'
         groups: docker
         append: true
 
@@ -163,7 +163,7 @@
     - name: Change docker directory permission - docker no need sudo
       file:
         state: directory
-        path: '/home/{{ created_username }}/.docker/'
-        owner: '{{ created_username }}'
-        group: '{{ created_username }}'
+        path: '/home/{{ username }}/.docker/'
+        owner: '{{ username }}'
+        group: '{{ username }}'
         mode: '0770'

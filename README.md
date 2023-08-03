@@ -9,6 +9,9 @@
 
 ### Self install
 - [Ubuntu Ctrl Shift e](https://askubuntu.com/questions/1083913/what-does-ctrl-shift-e-do-while-typing-text)
+- node 18.13
+  - `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash`
+  - `nvm install 18.13`
 
 ## Run
 - `vagrant_ansible$ vagrant up` (Assume that running in windows 10)
